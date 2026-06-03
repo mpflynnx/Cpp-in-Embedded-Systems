@@ -6,11 +6,8 @@
             "type": "shell",
             "command": "cmake",
             "args": [
-                "-S",
-                "${workspaceFolder}",  // Specifies the source directory
-                "-B",
-                "${workspaceFolder}/build",  // Specifies the build directory
-                "-DCMAKE_BUILD_TYPE=Debug"  // Example of setting a CMake variable
+                "--preset",
+                "Debug"
             ],
             "group": "build",
             "problemMatcher": [],
@@ -22,9 +19,10 @@
             "dependsOn": [
                 "Configure"
             ],
-            "command": "make",
+            "command": "cmake",
             "args": [
-                "-C", "build"
+                "--build",
+                "build/Debug"
             ],
             "group": {
                 "kind": "build",
@@ -43,7 +41,7 @@
             "args": [
                 "--console",
                 "--disable-xwt",
-                "${workspaceFolder}/renode_scripts/stm32f072.resc"
+                "\"${workspaceFolder}/renode_scripts/stm32f072.resc\""
             ],
             "dependsOn": [
                 "Build"
@@ -73,7 +71,7 @@
             "args": [
                 "--console",
                 "--disable-xwt",
-                "${workspaceFolder}/renode_scripts/stm32f072_debug.resc"
+                "\"${workspaceFolder}/renode_scripts/stm32f072_debug.resc\""
             ],
             "dependsOn": [
                 "Build"

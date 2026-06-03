@@ -10,22 +10,26 @@
             "servertype": "external",
             "gdbPath": "arm-none-eabi-gdb",
             "gdbTarget": "localhost:3333",
-            "cwd": "${workspaceRoot}",
-            "executable": "${workspaceFolder}/build/bare.elf",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/bare.elf",
             "preLaunchCommands": [
                 "monitor machine Reset",
                 "monitor start",
                 "monitor continue"
-            ],
-        }, 
+            ]
+        },
         {
-            "name": "Run Without Debugging",
-            "type": "node", 
+            "name": "Run application without debugging",
+            "type": "cortex-debug",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Run Renode",  
+            "noDebug": true,
+            "preLaunchTask": "Run Renode",
             "postDebugTask": "Close Renode",
-            "internalConsoleOptions": "neverOpen",
+            "servertype": "external",
+            "gdbPath": "arm-none-eabi-gdb",
+            "gdbTarget": "localhost:3333",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/bare.elf"
         }
     ]
 }
