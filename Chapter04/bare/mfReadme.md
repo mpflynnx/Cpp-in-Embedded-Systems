@@ -267,6 +267,25 @@ The Killer Feature (-fix): It doesn't just complain about bad code; it can actua
 
 How it works: Instead of relying on dumb text matching, it uses the actual Clang compiler frontend to parse your code into an Abstract Syntax Tree (AST). This gives it a deep, highly accurate understanding of your code's structure, which is why it requires a clean compile_commands.json database to function correctly.
 
+#### Modern Rewrite (No More Bash Hacks)
+In modern CMake, you can completely eliminate the brittle execute_process bash-scraping code. CMake already queries the compiler during its initialization phase and stores the default system header paths inside built-in internal variables: CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES and CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES.
+
+The catch is that these variables are only populated after CMake identifies the compiler. Therefore, you must move this block down so it sits right below the enable_language command.
+
+Replace the entire original if(CMAKE_EXPORT_COMPILE_COMMANDS) block with this clean, cross-platform alternative:
+
+```CMakeLists.txt
+# Make sure this block is placed BELOW the enable_language(C CXX ASM) command!
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+  set(CMAKE_C_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES})
+  set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+endif()
+```
+
+This forces CMake to copy its internally discovered system header paths directly into your compilation database, achieving the exact same goal without relying on a fragile shell pipeline.
+
+If set(CMAKE_EXPORT_COMPILE_COMMANDS 1) active at the top of your file, CMake will still generate the database (build/Debug/compile_commands.json). 
+
 #### Running clang-tidy manually
 
 ```bash
