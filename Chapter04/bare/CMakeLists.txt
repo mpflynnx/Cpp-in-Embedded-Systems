@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.31.2)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
@@ -28,51 +28,18 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -flto")
 set(CMAKE_C_FLAGS_MINSIZEREL "-Os -flto")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -flto")
 
-if(CMAKE_EXPORT_COMPILE_COMMANDS)
-  execute_process(
-    COMMAND
-      bash -c
-      "${CMAKE_CXX_COMPILER} -x c++ -Wp,-v /dev/null 2>&1 > /dev/null | grep '^ /' | grep -w 'c++'"
-    OUTPUT_VARIABLE COMPILER_HEADERS
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-  if(COMPILER_HEADERS)
-    string(REGEX REPLACE "[[:space:]]+" ";" INCLUDE_COMPILER_HEADERS
-           "${COMPILER_HEADERS}")
-    if(INCLUDE_COMPILER_HEADERS)
-      set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES
-          "${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES} ${INCLUDE_COMPILER_HEADERS}")
-    endif()
-  endif()
-
-  execute_process(
-    COMMAND
-      bash -c
-      "${CMAKE_C_COMPILER} -x c -Wp,-v /dev/null 2>&1 > /dev/null | grep '^ /' "
-    OUTPUT_VARIABLE COMPILER_HEADERS
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-  if(COMPILER_HEADERS)
-    string(REGEX REPLACE "[[:space:]]+" ";" INCLUDE_COMPILER_HEADERS
-           "${COMPILER_HEADERS}")
-    if(INCLUDE_COMPILER_HEADERS)
-      set(CMAKE_C_STANDARD_INCLUDE_DIRECTORIES
-          "${CMAKE_C_STANDARD_INCLUDE_DIRECTORIES} ${INCLUDE_COMPILER_HEADERS}")
-    endif()
-  endif()
-
-  if(CMAKE_C_STANDARD_INCLUDE_DIRECTORIES)
-    set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES
-        "${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES} ${CMAKE_C_STANDARD_INCLUDE_DIRECTORIES}")
-  endif()
-endif()
-
 project(bare VERSION 1.0.6)
 
 enable_language(C CXX ASM)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Make sure this block is placed BELOW the enable_language(C CXX ASM) command!
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+  set(CMAKE_C_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES})
+  set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+endif()
 
 # global include directories
 include_directories(
