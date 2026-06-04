@@ -270,7 +270,32 @@ How it works: Instead of relying on dumb text matching, it uses the actual Clang
 #### Running clang-tidy manually
 
 ```bash
-$ clang-tidy -p build/Debug app/src/main.c
+$ clang-tidy -p build/Debug app/src/main.cpp
+```
+
+
+```Bash
+$ clang-tidy -p build/Debug app/src/main.cpp
+8393 warnings and 1 error generated.
+Error while processing E:/e_mcu/books/forks/Cpp-in-Embedded-Systems/Chapter04/ba
+re/app/src/main.cpp.
+E:\e_mcu\books\forks\Cpp-in-Embedded-Systems\Chapter04\bare\app\src\main.cpp:1:1
+0: error: 'cstdint' file not found [clang-diagnostic-error]
+    1 | #include <cstdint>
+      |          ^~~~~~~~~
+E:\e_mcu\books\forks\Cpp-in-Embedded-Systems\Chapter04\bare\app\src\main.cpp:11:
+26: warning: integer to pointer cast pessimizes optimization opportunities [perf
+ormance-no-int-to-ptr]
+   11 |     hal::uart_stm32 uart(USART2);
+      |                          ^
+E:/e_mcu/books/forks/Cpp-in-Embedded-Systems/Chapter04/bare/platform/CMSIS/Devic
+e/ST/STM32F0xx/Include/stm32f072xb.h:726:30: note: expanded from macro 'USART2'
+  726 | #define USART2              ((USART_TypeDef *) USART2_BASE)
+      |                              ^
+Suppressed 8392 warnings (8392 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system
+-headers to display errors from system headers as well.
+Found compiler error(s).
 ```
 
 #### VS Code extensions
