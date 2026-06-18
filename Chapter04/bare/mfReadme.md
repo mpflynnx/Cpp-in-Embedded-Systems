@@ -233,6 +233,16 @@ Yes, only one is needed for flashing your target — and bare.elf is a valid cho
 
 ### Using VS Code as per the book
 
+### Debugging
+
+Here's what I did regarding the gdb path:
+
+1. Identified the problem: Initially discovered the project was using the generic GDB 17.1 from the system PATH instead of the ARM-specific debugger.
+
+2. Updated launch.json: Modified both debug configurations (Debug application in Renode and Run application without debugging) to use the full path: arm-none-eabi-gdb.exe instead of just arm-none-eabi-gdb.
+
+3. Verified the correct version: Confirmed the project is now using the correct ARM-specific GDB version 16.3.90.20250906-git from the Arm GNU Toolchain 15.2.Rel1, rather than the generic version.
+
 #### clang-tidy
 The original file from the book source code repo had this comment
 ```
@@ -342,7 +352,6 @@ ms-vscode.powershell@2025.4.0
 phil294.git-log--graph@0.1.35
 streetsidesoftware.code-spell-checker@4.5.6
 techer.open-in-browser@2.0.0
-
 ```
 
 Repeat for another profile

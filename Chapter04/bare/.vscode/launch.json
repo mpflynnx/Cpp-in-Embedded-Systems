@@ -8,7 +8,7 @@
             "preLaunchTask": "Run Renode Debug",
             "postDebugTask": "Close Renode",
             "servertype": "external",
-            "gdbPath": "arm-none-eabi-gdb",
+            "gdbPath": "E:/Arm/GNU-Toolchain-mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
             "gdbTarget": "localhost:3333",
             "cwd": "${workspaceFolder}",
             "executable": "${workspaceFolder}/build/Debug/bare.elf",
@@ -26,7 +26,7 @@
             "preLaunchTask": "Run Renode",
             "postDebugTask": "Close Renode",
             "servertype": "external",
-            "gdbPath": "arm-none-eabi-gdb",
+            "gdbPath": "E:/Arm/GNU-Toolchain-mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
             "gdbTarget": "localhost:3333",
             "cwd": "${workspaceFolder}",
             "executable": "${workspaceFolder}/build/Debug/bare.elf"
