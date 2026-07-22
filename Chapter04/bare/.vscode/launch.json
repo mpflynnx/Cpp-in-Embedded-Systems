@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug application in Renode",
+            "name": "Debug with Renode",
             "type": "cortex-debug",
             "request": "launch",
             "preLaunchTask": "Run Renode Debug",
@@ -19,7 +19,7 @@
             ]
         },
         {
-            "name": "Run application without debugging",
+            "name": "Run Renode (No Debug)",
             "type": "cortex-debug",
             "request": "launch",
             "noDebug": true,
@@ -30,6 +30,56 @@
             "gdbTarget": "localhost:3333",
             "cwd": "${workspaceFolder}",
             "executable": "${workspaceFolder}/build/Debug/bare.elf"
+        },
+        {
+            "name": "Debug with J-Link",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug-Hardware/bare.elf",
+            "preLaunchTask": "J-Link GDB Server",
+            "postDebugTask": "Close Renode",
+            "servertype": "jlink",
+            "gdbPath": "E:/Arm/GNU-Toolchain-mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
+            "device": "STM32F072CB",
+            "interface": "swd",
+            "ipAddress": "localhost",
+            "port": 2331,
+            "preLaunchCommands": [
+                "monitor speed 4000",
+                "monitor swd",
+                "monitor reset"
+            ],
+            "postLaunchCommands": [
+                "load",
+                "monitor reset",
+                "break main"
+            ],
+            "runToEntryPoint": "main"
+        },
+        {
+            "name": "Flash and Debug with J-Link",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug-Hardware/bare.elf",
+            "preLaunchTask": "Flash with J-Link",
+            "servertype": "jlink",
+            "gdbPath": "E:/Arm/GNU-Toolchain-mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
+            "device": "STM32F072CB",
+            "interface": "swd",
+            "ipAddress": "localhost",
+            "port": 2331,
+            "preLaunchCommands": [
+                "monitor speed 4000",
+                "monitor swd",
+                "monitor reset"
+            ],
+            "postLaunchCommands": [
+                "monitor reset",
+                "break main"
+            ],
+            "runToEntryPoint": "main"
         }
     ]
 }

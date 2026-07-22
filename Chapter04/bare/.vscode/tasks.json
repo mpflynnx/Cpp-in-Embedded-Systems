@@ -99,6 +99,90 @@
             "command": "echo ${input:terminate}",
             "type": "shell",
             "problemMatcher": []
+        },
+        {
+            "label": "Configure Hardware",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "Debug-Hardware"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Generates build system files with CMake for Hardware target"
+        },
+        {
+            "label": "Build for Hardware",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "build/Debug-Hardware"
+            ],
+            "dependsOn": [
+                "Configure Hardware"
+            ],
+            "group": {
+                "kind": "build"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Flash with J-Link",
+            "type": "shell",
+            "command": "JLinkExe",
+            "args": [
+                "-device", "STM32F072CB",
+                "-if", "SWD",
+                "-speed", "4000",
+                "-autoconnect", "1",
+                "-CommandFile", "${workspaceFolder}/jlink_scripts/flash.jlink"
+            ],
+            "dependsOn": [
+                "Build for Hardware"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "detail": "Flash firmware to STM32F072 using J-Link"
+        },
+        {
+            "label": "J-Link GDB Server",
+            "type": "shell",
+            "command": "JLinkGDBServer",
+            "args": [
+                "-device", "STM32F072CB",
+                "-if", "SWD",
+                "-speed", "4000",
+                "-port", "${input:jlinkPort}",
+                "-endian", "little"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "source": "JLink",
+                "pattern": {
+                    "regexp": ""
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*Connecting to J-Link via USB.*",
+                    "endsPattern": ".*Listening on port.*"
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "detail": "Start J-Link GDB Server for debugging"
         }
     ],
     "inputs": [
@@ -107,6 +191,13 @@
             "type": "command",
             "command": "workbench.action.tasks.terminate",
             "args": "terminateAll"
+        },
+        {
+            "id": "jlinkPort",
+            "type": "pickString",
+            "description": "J-Link GDB Server Port",
+            "options": ["2331", "3333"],
+            "default": "2331"
         }
     ]
 }

@@ -1,0 +1,22 @@
+// J-Link Commander Script for STM32F072 Flash Programming
+// Device: STM32F072CB (128KB Flash, 16KB RAM)
+
+// Connect to device
+connect
+
+// Reset and halt
+reset
+halt
+
+// Load the ELF file and program Flash
+LoadFile build/Debug-Hardware/bare.elf
+
+// Verify programming
+VerifyDownload
+
+// Reset and run
+reset
+go
+
+// Exit
+exit

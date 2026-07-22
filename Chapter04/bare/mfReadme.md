@@ -201,6 +201,8 @@ For the debug script
 "E:/Program Files/Renode/bin/renode.exe" --console --disable-xwt renode_scripts/stm32f072_debug.resc
 ```
 #### Notes:
+Must open VSCode in folder E:\e_mcu\books\forks\Cpp-in-Embedded-Systems\Chapter04\bare\
+
 Run it from bare so the script’s relative path to bare.elf works.
 If you want an interactive monitor session instead of auto-starting, omit -e start.
 
@@ -235,6 +237,8 @@ Yes, only one is needed for flashing your target — and bare.elf is a valid cho
 
 ### Debugging
 
+Must open VSCode in folder E:\e_mcu\books\forks\Cpp-in-Embedded-Systems\Chapter04\bare\
+
 Here's what I did regarding the gdb path:
 
 1. Identified the problem: Initially discovered the project was using the generic GDB 17.1 from the system PATH instead of the ARM-specific debugger.
@@ -242,6 +246,11 @@ Here's what I did regarding the gdb path:
 2. Updated launch.json: Modified both debug configurations (Debug application in Renode and Run application without debugging) to use the full path: arm-none-eabi-gdb.exe instead of just arm-none-eabi-gdb.
 
 3. Verified the correct version: Confirmed the project is now using the correct ARM-specific GDB version 16.3.90.20250906-git from the Arm GNU Toolchain 15.2.Rel1, rather than the generic version.
+
+Debug application in Renode
+
+Wait at the message about waiting for prelaunch pop up debug
+
 
 #### clang-tidy
 The original file from the book source code repo had this comment
@@ -404,6 +413,8 @@ Error: `CMake Error: The source directory "E:e_mcubooksforksCpp-in-Embedded-..."
 Now launch tasks **Debug application in Renode** and **Run application without debugging** work as the book. 
 
 <!-- ### Depreciated commands while trying to fix the issues
+
+
 - If a CMakePresets.json file does not exist and compiler not found by path
 - Explicit form:
 ```bash
